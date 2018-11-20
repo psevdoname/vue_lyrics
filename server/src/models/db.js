@@ -59,9 +59,10 @@ mongoose.model('Lyrics', lyricsschema)
 // })
 // const auser2 = new User(dumb)
 
-mongoose.connect('mongodb://localhost/lyricgen', {
-  useNewUrlParser: true
-})
+// mongoose.connect('mongodb://localhost/lyricgen', {
+//   useNewUrlParser: true
+// })
+mongoose.connect('mongodb://ad3535:oDyjm7wh@class-mongodb.cims.nyu.edu/ad3535')
 // console.log(dumb)
 
 // auser2.save((err) => {

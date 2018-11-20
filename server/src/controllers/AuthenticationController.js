@@ -31,8 +31,11 @@ module.exports = {
   },
   async login (req, res) {
     console.log('logging in')
-    await passport.authenticate('local')(req, res, function () {
-      console.log('Success login')
+    await passport.authenticate('local', {
+      successRedirect: '/profile',
+      failureRedirect: '/no'
+    }, (req, res) => {
+      console.log(req.user)
     })
   }
 }
