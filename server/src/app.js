@@ -18,7 +18,7 @@ if (process.env.NODE_ENV === 'PRODUCTION') {
 // if we're not in PRODUCTION mode, then use
   dbconf = 'mongodb://localhost/lyricgenNew'
 }
-
+console.log(dbconf)
 mongoose.connect(dbconf, {
   useNewUrlParser: true
 })
