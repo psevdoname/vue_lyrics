@@ -17,7 +17,7 @@
           <td>{{ song.artists }}</td>
           <td>{{ song.lyrics }}</td>
           <td align="center">
-            <router-link v-bind:to="{ name: 'EditPost', params: { id: song._id } }">Edit</router-link> |
+            <router-link v-bind:to="{ name: 'EditSong', params: { id: song._id } }">Edit</router-link> |
             <a href="#">Delete</a>
           </td>
         </tr>

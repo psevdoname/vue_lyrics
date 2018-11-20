@@ -31,7 +31,6 @@ db.once('open', function (callback) {
 
 // mongoose.connect('mongodb://localhost/lyricgen').then(() => console.log('connection succesful')).catch((err) => console.error(err))
 // var db = mongoose.connection
-var Post = require('../models/post')
 var User = require('../models/user')
 
 var Lyrics = require('../models/lyrics')
@@ -95,34 +94,27 @@ app.post('/songs', (req, res) => {
     })
   })
 })
-
-app.get('/posts', (req, res) => {
-  console.log('getting post')
-  Post.find({}, 'title description', function (error, posts) {
+app.get('/song/:title', (req, res) => {
+  Lyrics.findById(req.params.id, 'title src_artists lyrics', function (error, song) {
     if (error) { console.error(error) }
-    res.send({
-      posts: posts
-    })
-  }).sort({ _id: -1 })
-})
-app.post('/posts', (req, res) => {
-  console.log('getting post')
-
-  // var db = req.db
-  var title = req.body.title
-  var description = req.body.description
-  var newPost = new Post({
-    title: title,
-    description: description
+    res.send(song)
   })
+})
 
-  newPost.save(function (error) {
-    if (error) {
-      console.log(error)
-    }
-    res.send({
-      success: true,
-      message: 'Post saved successfully!'
+// Update a post
+app.put('/song/:id', (req, res) => {
+  Lyrics.findById(req.params.id, 'title src_artists lyrics', function (error, song) {
+    if (error) { console.error(error) }
+
+    song.title = req.body.title
+    song.description = req.body.description
+    song.save(function (error) {
+      if (error) {
+        console.log(error)
+      }
+      res.send({
+        success: true
+      })
     })
   })
 })

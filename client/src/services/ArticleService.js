@@ -6,5 +6,8 @@ export default {
   },
   addPost (params) {
     return Api().post('songs', params)
+  },
+  getPost (params) {
+    return Api().get('post/' + params.id)
   }
 }
