@@ -21,21 +21,18 @@ export default {
   },
   methods: {
     async register () {
-      try{
-        const response = await authentication.register({
-        username: this.username,
-        email: this.email,
-        password: this.password
-      })
-      this.$router.push({
-        path: 'home'
-      })
+      try {
+        await authentication.register({
+          username: this.username,
+          email: this.email,
+          password: this.password
+        })
+        this.$router.push({
+          path: 'home'
+        })
       } catch (error) {
         this.error = error.response.data.error
       }
-      
-      // console.log(response.data)
-      // console.log(response.data)
     }
   }
 }

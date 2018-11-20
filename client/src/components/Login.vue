@@ -21,23 +21,17 @@ export default {
   },
   methods: {
     async login () {
-      
-      try{
-        const response = await authentication.login({
-        username: this.username,
-        email: this.email,
-        password: this.password
-      })
-      this.$router.push('/')
-        
-        
+      try {
+        await authentication.login({
+          username: this.username,
+          email: this.email,
+          password: this.password
+        })
+        this.$router.push('/')
       } catch (error) {
         // this.error = error.response.data.error
         console.log(error)
       }
-      
-    //   console.log(response.data)
-      // console.log(response.data)
     }
   }
 }

@@ -1,4 +1,4 @@
-require('../models/db.js')
+// require('../models/user')
 const mongoose = require('mongoose')
 const User = mongoose.model('User')
 var passport = require('passport')
