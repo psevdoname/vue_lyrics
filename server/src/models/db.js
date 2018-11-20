@@ -1,9 +1,8 @@
 const mongoose = require('mongoose')
-// require('./models/db')
-// const dummy = require('mongoose-dummy')
 const URLSlug = require('mongoose-url-slugs')
 
-// const ignoredFields = ['_id', 'created_at']
+var passportLocalMongoose = require('passport-local-mongoose')
+
 const lyricsschema = new mongoose.Schema({
   id: {
     type: Number, required: true
@@ -19,16 +18,17 @@ const lyricsschema = new mongoose.Schema({
 
 const userschema = new mongoose.Schema({
   username: {
-    type: String, required: true
+    type: String, required: true, unique: true
   },
+  password: String,
   email: {
-    type: String, required: true
+    type: String, required: true, unique: true
   },
   hash: String,
   cart: [String],
   lyrics: [String]
 })
-
+userschema.plugin(passportLocalMongoose)
 lyricsschema.plugin(URLSlug('title'))
 userschema.plugin(URLSlug('username'))
 

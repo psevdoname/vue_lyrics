@@ -1,65 +1,38 @@
 require('../models/db.js')
 const mongoose = require('mongoose')
 const User = mongoose.model('User')
+var passport = require('passport')
+
+// var userController = {}
 
 module.exports = {
-  register (req, res) {
+  async register (req, res) {
     const newUser = new User({
       email: req.body.email,
       username: req.body.username,
       password: req.body.password
     })
-    newUser.save((err) => {
+    await User.register(newUser, req.body.password, function (err, user) {
       if (err) {
-        res.status(400).send({
-          error: 'email in use'
+        // something liek name: 'UserExistsError',
+        // message: 'A user with the given username is already registered' }
+        console.log(err)
+      } else {
+        passport.authenticate('local')(req, res, () => {
+          console.log('registered')
+        })
+        User.find((err, data) => {
+          if (!err) {
+            console.log(data)
+          }
         })
       }
     })
-    User.find((err, data) => {
-      if (!err) {
-        res.send({
-          message: `${data}`
-        })
-        console.log(newUser.email)
-      }
+  },
+  async login (req, res) {
+    console.log('logging in')
+    await passport.authenticate('local')(req, res, function () {
+      console.log('Success login')
     })
   }
-  // async register (req, res) {
-
-  //   console.log(myData)
-  //   try {
-  //     // User()
-  //     res.send({
-  //       message: 'hellowow'
-  //     })
-
-  //     User.find((err, data) => {
-  //       if (!err) {
-  //         console.log(data)
-  //       }
-  //     })
-
-  //     // res.send({
-  //     //   message: 'req.body'
-  //     // })
-  //     // console.log(newUser)
-  //     // newUser.save((err) => {
-  //     //   if (!err) {
-  //     //     console.log('success')
-  //     //   } else {
-  //     //     console.log(err)
-  //     //   }
-  //     // })
-  //     // User.find((err, data) => {
-  //     //   if (!err) {
-  //     //     console.log(data)
-  //     //   }
-  //     // })
-  //   } catch (err) {
-  //     res.send({
-  //       message: err
-  //     })
-  //   }
-  // }
 }
