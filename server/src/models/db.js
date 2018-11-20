@@ -35,46 +35,24 @@ userschema.plugin(URLSlug('username'))
 mongoose.model('User', userschema)
 mongoose.model('Lyrics', lyricsschema)
 
-// const User = mongoose.model('User', userschema)
-// const Lyrics = mongoose.model('Lyrics', lyricsschema)
-// let dumb = dummy(User, {
-//   ignore: ignoredFields,
-//   returnDate: true
-// })
-// console.log(dumb)
+let dbconf
+if (process.env.NODE_ENV === 'PRODUCTION') {
+// if we're in PRODUCTION mode, then read the configration from a file
+// use blocking file io to do this...
+  const fs = require('fs')
+  const path = require('path')
+  const fn = path.join(__dirname, 'config.json')
+  const data = fs.readFileSync(fn)
 
-// dummy(Lyrics, {
-//   ignore: ignoredFields,
-//   returnDate: true
-// })
+  // our configuration file will be in json, so parse it and set the
+  // conenction string appropriately!
+  const conf = JSON.parse(data)
+  dbconf = conf.dbconf
+} else {
+// if we're not in PRODUCTION mode, then use
+  dbconf = 'mongodb://localhost/lyricgen'
+}
 
-// console.log(randomObject)
-// console.log(randomObject2)
-// const auser = new User({
-//   username: 'artemtest2',
-//   email: 'artem@test1.comm',
-//   hash: 'HAS22H',
-//   cart: ['first song2'],
-//   lyrics: ['Lyrics for song 12']
-// })
-// const auser2 = new User(dumb)
-
-// mongoose.connect('mongodb://localhost/lyricgen', {
-//   useNewUrlParser: true
-// })
-mongoose.connect('mongodb://ad3535:oDyjm7wh@class-mongodb.cims.nyu.edu/ad3535')
-// console.log(dumb)
-
-// auser2.save((err) => {
-//   if (!err) {
-//     console.log('poluch')
-//     User.find((err, enn) => {
-//       if (!err) {
-//         console.log('date')
-//         console.log(enn)
-//       }
-//     })
-//   } else {
-//     console.log(err)
-//   }
-// })
+mongoose.connect(dbconf, {
+  useNewUrlParser: true
+})
